@@ -7,6 +7,7 @@ from django.http import (
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.core.files.storage import default_storage
+from urllib import urlencode
 
 from models import *
 import logging
@@ -30,7 +31,13 @@ def upload(request):
         except Exception as e:
             logger.error("Failed to complete file upload:\n" + str(e))
             return HttpResponse("Unable to complete upload.", status=500)
-        return JsonResponse({ "public_url": url }, status=201 )
+        local_url = reverse('view') + "?" + urlencode({'file': reverse('document', args=(file.id,))})
+        return JsonResponse({ "remote_url": url,
+                              "local_url": local_url
+                            }, status=201 )
+
+def view(request):
+    return TemplateResponse(request, "viewer.html")
 
 def document(request, id):
 

@@ -225,7 +225,7 @@
               this.dropzone.on('success', function (file, response) {
                 store.commit('updateItem', {
                   name: file.name,
-                  url: response.public_url,
+                  url: response.local_url,
                   status: "success"
                 })
               })

@@ -20,5 +20,6 @@ from pdfuploader import views
 urlpatterns = [
     url(r'^$', views.index, name="home"),
     url(r'^upload/$', views.upload, name="upload"),
+    url(r'^view/$', views.view, name="view"),
     url(r'^doc/(?P<id>[\w\-]+)/$', views.document, name="document"),
 ]
