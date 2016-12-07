@@ -6,7 +6,6 @@ from django.http import (
 )
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
-from django.conf import settings
 from django.core.files.storage import default_storage
 
 from models import *
@@ -29,7 +28,7 @@ def upload(request, extra_context=None):
         except Exception as e:
             logger.error("Failed to complete file upload:\n" + str(e))
             return HttpResponse("Unable to complete upload.", status=500)
-        return JsonResponse({ "name": file.file.name.lstrip(settings.AWS_STORAGE_BUCKET_NAME),
+        return JsonResponse({ "name": file.name,
                               "public_url": url,
                               "size": file.size_bytes },
                             status=201 )
@@ -42,7 +41,7 @@ def document(request, id):
         except StoredFile.DoesNotExist:
             return redirect(reverse('index'))
 
-        filename = str(file.file).lstrip(settings.AWS_STORAGE_BUCKET_NAME).lstrip('/')
+        filename = file.name
         response = HttpResponse(file.file.read(), content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="%s"' % filename
         return response
