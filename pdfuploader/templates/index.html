@@ -39,6 +39,7 @@
       // Disabling autoDiscover, otherwise Dropzone will try to attach twice, per the docs
       Dropzone.autoDiscover = false
 
+      // Use Vuex store as the source of truth for file metadata
       const store = new Vuex.Store({
         state: {
           files: []
@@ -48,13 +49,14 @@
             // we prepend to the array so that the most recently-uploaded files appear at the top
             state.files.unshift({
               file: file,
-              uploadProgress: 0,
+              progress: 0,
               status: "",
               url: "",
               errorMessage: ""
             })
           },
           updateItem (state, obj) {
+            console.log(obj)
             name = obj.name // a name is required to identify the item
             for (var i = state.files.length - 1; i >= 0; i--) {
               if (state.files[i].file.name === name) {
@@ -79,6 +81,7 @@
         }
       })
 
+      // Button / spinner component
       Vue.component('dz-button', {
         props: {
           id: {
@@ -98,6 +101,7 @@
         template: '<div style="margin-bottom: 30px"><mt-button :type="type" :id="id" v-show="!loading">Upload</mt-button><svg v-show="loading" width="40px" height="40px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-ring-alt"><rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect><circle cx="50" cy="50" r="40" stroke="#ffffff" fill="none" stroke-width="10" stroke-linecap="round"></circle><circle cx="50" cy="50" r="40" stroke="#16c98d" fill="none" stroke-width="6" stroke-linecap="round"><animate attributeName="stroke-dashoffset" dur="2s" repeatCount="indefinite" from="0" to="502"></animate><animate attributeName="stroke-dasharray" dur="2s" repeatCount="indefinite" values="150.6 100.4;1 250;150.6 100.4"></animate></circle></svg></div>'
       })
 
+      // The preview list component visible after files are uploaded
       Vue.component('item-list', {
         template: '<div class="file-list-wrap dropzone-previews"><transition-group name="slide-fade" tag="table"><tr is="item" v-for="item in files" v-bind:key="item" :item="item"></tr></transition-group><div>',
         components: {
@@ -129,8 +133,7 @@
                 return !!this.item.status.length
               },
               uploadProgress () {
-                console.log(this.item.uploadProgress)
-                return this.item.uploadProgress
+                return this.item.progress
               },
               hasSuccess () {
                 return this.item.status === "success"
@@ -154,6 +157,7 @@
         }
       })
 
+      // Our root dropzone component
       const App = new Vue({
         el: '#app',
         components: {

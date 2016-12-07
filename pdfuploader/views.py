@@ -13,25 +13,24 @@ import logging
 
 logger = logging.getLogger('django')
 
-def index(request, extra_context=None):
+def index(request):
     return TemplateResponse(request, "index.html")
 
-def upload(request, extra_context=None):
+def upload(request):
 
     if request.method == "POST":
         file = StoredFile(file=request.FILES['file'],
                           size_bytes=request.FILES['file'].size)
         try:
+            # Pushes to S3, our default_storage
             file.save()
+             # Generate a public URL, expiring in 1 hour
             key = default_storage.bucket.get_key(file.file)
-            url = key.generate_url(3600) # Generate a public URL expiring in 1 hour
+            url = key.generate_url(3600)
         except Exception as e:
             logger.error("Failed to complete file upload:\n" + str(e))
             return HttpResponse("Unable to complete upload.", status=500)
-        return JsonResponse({ "name": file.name,
-                              "public_url": url,
-                              "size": file.size_bytes },
-                            status=201 )
+        return JsonResponse({ "public_url": url }, status=201 )
 
 def document(request, id):
 
