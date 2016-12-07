@@ -1,0 +1,113 @@
+html, body, #app {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #1d1d1d;
+  font-weight: 100;
+}
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.header {
+  text-align: center;
+  padding-top: 200px;
+  margin-bottom: 30px;
+}
+h1 {
+  font-weight: 200;
+  display: inline;
+}
+.icon {
+  display: inline;
+}
+h1 > i {
+  color: #16c98d;
+  margin-right: 8px;
+}
+.dz-drag-hover {
+  background-color: rgba(0,0,0,0.1);
+}
+.main {
+  text-align: center;
+}
+.mint-button {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 200;
+}
+.mint-button--primary, .mt-progress-progress {
+  background-color: #16c98d;
+}
+.mint-button--primary {
+  cursor: pointer;
+}
+p {
+  font-size: 20px;
+}
+a, a:link, a:visited {
+  color: #16c98d;
+  text-decoration: none;
+}
+a:hover, a:active, a:focus {
+  color: #0d7955;
+}
+.hide {
+  display: none;
+}
+
+#previews {
+  text-align: left;
+  width: 600px;
+  margin: 0 auto 30px;
+  box-shadow: 0 0 3px 0 rgba(0,0,0,0.4);
+}
+table {
+  border-collapse: collapse;
+  -webkit-border-vertical-spacing: 0;
+  -webkit-border-horizontal-spacing: 0;
+}
+#previews tr + tr {
+  border-top: 1px solid #eee;
+}
+td {
+  padding: 15px;
+}
+td+td {
+  padding-left: 0;
+}
+.dz-image {
+  width: 50px;
+  text-align: center;
+}
+.icon-lg {
+  font-size: 48px;
+  color: #16c98d;
+}
+.dz-error-mark, .dz-success-mark {
+  display: inline;
+  margin-right: 5px;
+}
+.dz-link {
+  width: 70px;
+  text-align: right;
+}
+div[class^="dz-error"] {
+  color: #ff3f49;
+}
+div[class^="dz-success"] {
+  color: #16c98d;
+}
+
+/* Vue animation classes, per: https://vuejs.org/v2/guide/transitions.html */
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-active {
+  transform: translateY(40px);
+  opacity: 0;
+}
